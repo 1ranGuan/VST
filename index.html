@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Streaming Thinking (VST) - VideoLLMs Can Watch and Think Simultaneously</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00b8d4;
+            --primary-light: #e0f7fa;
+            --secondary-color: #64748b;
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
+            --accent-color: #ff6b35;
+            --accent-green: #4caf50;
+            --accent-yellow: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: white;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            width: 100%;
+            max-width: none;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #e0f7fa 0%, #f0fbff 50%, #ffffff 100%);
+            border-radius: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            border-top: none;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            line-height: 1.3;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        /* Authors */
+        .authors {
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin: 1.5rem 0;
+            line-height: 2.2;
+            letter-spacing: 0.02em;
+        }
+
+        .authors .author-name {
+            display: inline-block;
+            margin: 0 0.6rem;
+            white-space: nowrap;
+        }
+
+        .authors sup {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 0.75em;
+            margin-left: 1px;
+        }
+
+        .authors a {
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .authors a:hover {
+            text-decoration: underline;
+            color: var(--primary-color);
+        }
+
+        /* Affiliations */
+        .affiliations {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 1.5rem auto;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .affiliations p {
+            font-size: 0.92rem;
+            color: var(--text-light);
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .equal-contribution {
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+            margin-top: 0.8rem !important;
+            font-style: italic;
+        }
+
+        .affiliations a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .affiliations a:hover {
+            text-decoration: underline;
+        }
+
+        .aff-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .aff-num-1 {
+            background: var(--primary-color);
+        }
+
+        .aff-num-2 {
+            background: #3b82f6;
+        }
+
+        .aff-num-3 {
+            background: #8b5cf6;
+        }
+
+        .badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 184, 212, 0.25);
+        }
+
+        .badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 184, 212, 0.35);
+        }
+
+        .hero-description {
+            max-width: 900px;
+            margin: 1rem auto 1.5rem;
+            font-size: 1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            padding: 0;
+            background: none;
+            border: none;
+        }
+
+        .hero-image {
+            max-width: 85%;
+            height: auto;
+            border-radius: 12px;
+            margin: 1.5rem 0 0;
+            box-shadow: 0 10px 40px rgba(0, 184, 212, 0.15);
+        }
+
+        /* Section Styles */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        section:first-of-type {
+            border-top: none;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0 1rem;
+            color: var(--text-dark);
+        }
+
+        /* Introduction Text */
+        .intro-text {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            line-height: 1.85;
+            max-width: 960px;
+        }
+
+        /* Breakthroughs Card - 左侧蓝色竖线 + 编号圆点 */
+        .breakthroughs-card {
+            margin: 1.5rem 0 2rem;
+            padding: 1.8rem 2rem;
+            background: var(--bg-light);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 12px 12px 0;
+            max-width: 960px;
+        }
+
+        .breakthrough-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .breakthrough-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .breakthrough-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .breakthrough-content {
+            font-size: 1rem;
+            color: var(--text-light);
+            line-height: 1.75;
+        }
+
+        .breakthrough-content strong {
+            color: var(--text-dark);
+        }
+
+        /* Intro Highlight */
+        .intro-highlight {
+            font-size: 1.05rem;
+            font-style: italic;
+            font-weight: 600;
+            color: var(--primary-color);
+            line-height: 1.75;
+            max-width: 960px;
+            margin-top: 0.5rem;
+        }
+
+        /* Highlights Section */
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-item {
+            padding: 2rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .highlight-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .highlight-item p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Method Section */
+        .method-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .method-text p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .method-text strong {
+            color: var(--text-dark);
+        }
+
+        .method-image {
+            text-align: center;
+        }
+
+        .method-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Model Zoo Table */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        table th {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        table tr:hover {
+            background: var(--bg-light);
+        }
+
+        table td:first-child {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Case Study */
+        .case-study {
+            margin: 2rem 0;
+        }
+
+        .case-image {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .case-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Citation */
+        .citation-box {
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .citation-box pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .authors {
+                font-size: 0.85rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .method-content {
+                grid-template-columns: 1fr;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .badges {
+                flex-direction: column;
+            }
+
+            .badge {
+                display: flex;
+                justify-content: center;
+            }
+
+            .breakthroughs-card {
+                padding: 1.2rem 1rem;
+            }
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .highlight {
+            background: #fef08a;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">| VST</a>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#method">Method</a></li>
+                <li><a href="#experiments">Experiments</a></li>
+                <li><a href="#citation">Citation</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Video Streaming Thinking</h1>
+            <p class="hero-subtitle">VideoLLMs Can Watch and Think Simultaneously</p>
+
+            <div class="authors">
+                <span class="author-name">Yiran Guan<sup>1,2</sup>*</span>
+                <span class="author-name">Liang Yin<sup>1,2</sup>*</span>
+                <span class="author-name">Dingkang Liang<sup>1,2</sup></span>
+                <span class="author-name">Jianzhong Ju<sup>2</sup></span>
+                <span class="author-name">Zhenbo Luo<sup>2</sup></span>
+                <span class="author-name">Jian Luan<sup>2</sup></span>
+                <span class="author-name">Yuliang Liu<sup>1</sup></span>
+                <span class="author-name">Xiang Bai<sup>1</sup>✉</span>
+            </div>
+
+            <div class="affiliations">
+                <p><span class="aff-num aff-num-1">1</span> Huazhong University of Science and Technology, VLR Lab</p>
+                <p><span class="aff-num aff-num-2">2</span> MiLM Plus, Xiaomi Inc.</p>
+                <p class="equal-contribution">* Equal Contribution &nbsp;&nbsp; ✉ Corresponding Author</p>
+            </div>
+
+            <div class="badges">
+                <a href="#" class="badge">Paper</a>
+                <a href="#" class="badge">Code</a>
+                <a href="https://huggingface.co/datasets/BytedTsinghua-SIA/hotpotqa" class="badge" target="_blank">Dataset</a>
+                <a href="https://huggingface.co/BytedTsinghua-SIA/RL-MemoryAgent-14B" class="badge" target="_blank">Model</a>
+            </div>
+
+            <div class="hero-description">
+                <strong>Video Streaming Thinking</strong> introduces a new paradigm for streaming video understanding that interleaves active reasoning with continuous video consumption, enabling amortized test-time scaling with real-time responsiveness.
+            </div>
+
+            <img src="assets/fig1.png" alt="VST Overview" class="hero-image">
+        </div>
+    </div>
+
+    <!-- Overview Section -->
+    <section id="overview">
+        <h2>Introduction</h2>
+
+        <p class="intro-text">
+            Existing online VideoLLMs focus on efficient streaming perception but lack explicit analytical reasoning. Offline VideoLLMs with Chain-of-Thought (CoT) can reason deeply, but incur high query-answer (QA) latency that violates real-time constraints. <strong>VST bridges this gap</strong> by shifting the LLM backend from passive waiting to active, intermittent reasoning <em>during</em> video consumption, implementing a <strong>thinking-while-watching</strong> mechanism inspired by human neural coupling.
+        </p>
+
+        <p class="intro-text" style="margin-top: 1.5rem;">
+            <strong>VST</strong> achieves three core breakthroughs:
+        </p>
+
+        <div class="breakthroughs-card">
+            <div class="breakthrough-item">
+                <span class="breakthrough-num">1</span>
+                <div class="breakthrough-content">
+                    <strong>Streaming Thinking Paradigm:</strong> Interleaves autoregressive textual reasoning with real-time video consumption, maintaining a dual-memory system (short-term visual buffer + long-term textual semantic memory). Instead of deferring all reasoning until a user query arrives, VST continuously processes incoming video clips and produces intermediate streaming thoughts in real time.
+                </div>
+            </div>
+            <div class="breakthrough-item">
+                <span class="breakthrough-num">2</span>
+                <div class="breakthrough-content">
+                    <strong>Low QA Latency:</strong> By front-loading and amortizing the reasoning cost during video consumption, VST delivers better accuracy than offline CoT methods (e.g., Video-R1) with <span class="highlight">~16× lower</span> response latency (0.56s vs. 8.80s), making the final response both deeply grounded and instantly available.
+                </div>
+            </div>
+            <div class="breakthrough-item">
+                <span class="breakthrough-num">3</span>
+                <div class="breakthrough-content">
+                    <strong>Complete Training Pipeline:</strong> A two-stage post-training recipe combining VST-SFT and VST-RL, with an automated knowledge-graph-based data synthesis pipeline. Consistent improvements across 3B, 7B, and 32B model scales demonstrate the generalizability of the approach.
+                </div>
+            </div>
+        </div>
+
+        <p class="intro-highlight">
+            Through a simple yet effective design, VST demonstrates that VideoLLMs can watch and think simultaneously — achieving state-of-the-art results on both online benchmarks (StreamingBench, OVO-Bench) and offline benchmarks (VideoMME, LongVideoBench, VideoHolmes).
+        </p>
+    </section>
+
+    <!-- Method Section -->
+    <section id="method">
+        <h2>Method</h2>
+
+        <div class="method-content">
+            <div class="method-text">
+                <p>VST operates as a <strong>multi-round video conversation</strong> within a constrained context window:</p>
+                <ol style="margin-left: 1.5rem; color: var(--text-light);">
+                    <li><strong>Video clips</strong> arrive sequentially from the stream.</li>
+                    <li>At each interval, the LLM generates a <strong>streaming thought</strong> conditioned on the current clip and accumulated memory.</li>
+                    <li>A <strong>first-in-first-out memory update</strong> maintains long-term textual semantic memory.</li>
+                    <li>Upon receiving a <strong>user query</strong>, the model generates the final answer grounded in both the accumulated memory and the latest visual context.</li>
+                </ol>
+            </div>
+            <div class="method-image">
+                <img src="assets/pipeline.png" alt="VST Pipeline">
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study Section -->
+    <section>
+        <h2>Case Study</h2>
+        <p>The following case study demonstrates how VST's streaming thinking paradigm handles complex video understanding tasks:</p>
+        <div class="case-image">
+            <img src="assets/case.png" alt="VST Case Study">
+        </div>
+    </section>
+
+    <!-- Experiments Section -->
+    <section id="experiments">
+        <h2>Model Zoo</h2>
+        <p>Performance across multiple benchmarks and model sizes:</p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>OVO-Bench</th>
+                        <th>StreamingBench</th>
+                        <th>VideoMME</th>
+                        <th>LongVideoBench</th>
+                        <th>VideoHolmes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>VST-3B</td>
+                        <td>56.2</td>
+                        <td>75.5</td>
+                        <td>59.5</td>
+                        <td>54.1</td>
+                        <td>36.1</td>
+                    </tr>
+                    <tr>
+                        <td>VST-7B</td>
+                        <td>59.3</td>
+                        <td>79.5</td>
+                        <td>64.9</td>
+                        <td>58.0</td>
+                        <td>41.9</td>
+                    </tr>
+                    <tr>
+                        <td>VST-32B</td>
+                        <td>63.5</td>
+                        <td>80.7</td>
+                        <td>67.2</td>
+                        <td>60.7</td>
+                        <td>45.1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Citation Section -->
+    <section id="citation">
+        <h2>Citation</h2>
+        <p>If you use Video Streaming Thinking in your research, please cite our paper:</p>
+        <div class="citation-box">
+            <pre>TBD</pre>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Video Streaming Thinking Project</p>
+        <p>Last updated: March 2025</p>
+    </footer>
+</body>
+</html>
