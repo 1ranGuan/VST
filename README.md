@@ -7,7 +7,9 @@
 [![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b?style=flat-square&logo=arxiv)](https://arxiv.org/abs/2603.12262)
 [![Homepage](https://img.shields.io/badge/Homepage-project-orange.svg?logo=googlehome)](https://1ranguan.github.io/VST/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=flat-square)]()
-[![Model](https://img.shields.io/badge/🤗%20Model-HuggingFace-yellow?style=flat-square)](https://huggingface.co/Catalan258/VST-7B)
+[![Model 3/7/32B](https://img.shields.io/badge/🤗%20Model-HuggingFace-yellow?style=flat-square)](https://huggingface.co/Catalan258/VST-7B)
+[![Training Code](https://img.shields.io/badge/🤗%20Training%20Code-HuggingFace-yellow?style=flat-square)](https://huggingface.co/Catalan258/VST-Training-Data)
+
 
 </div>
 
@@ -38,7 +40,7 @@ Instead of deferring all reasoning until a user query arrives, VST continuously 
 - [x] Release the paper.
 - [x] Release checkpoint and eval code.
 - [x] Release training code.
-- [ ] Release training data.
+- [x] Release training data.
 
 
 ## 👍 Acknowledgement
