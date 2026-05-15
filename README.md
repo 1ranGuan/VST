@@ -8,11 +8,9 @@
 [![Homepage](https://img.shields.io/badge/Homepage-project-orange.svg?logo=googlehome)](https://1ranguan.github.io/VST/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=flat-square)]()
 [![Model 3/7/32B](https://img.shields.io/badge/🤗%20Model-HuggingFace-yellow?style=flat-square)](https://huggingface.co/Catalan258/VST-7B)
-[![Training Code](https://img.shields.io/badge/🤗%20Training%20Code-HuggingFace-yellow?style=flat-square)](https://huggingface.co/Catalan258/VST-Training-Data)
-
+[![Training Data](https://img.shields.io/badge/🤗%20Training%20Data-HuggingFace-yellow?style=flat-square)](https://huggingface.co/datasets/Catalan258/VST-Training-Data)
 
 </div>
-
 
 > **Video Streaming Thinking** introduces a new paradigm for streaming video understanding that interleaves active reasoning with continuous video consumption, enabling amortized test-time scaling with real-time responsiveness.
 
@@ -30,18 +28,26 @@ Instead of deferring all reasoning until a user query arrives, VST continuously 
 
 ## 🏗️ Model Zoo
 
-| **Model** | **OVO-Bench** | **StreamingBench** | **VideoMME** | **LongVideoBench** | **VideoHolmes** |
-|---|---|---|---|---|---|
-| VST-3B | 56.2 | 75.5 | 59.5 | 54.1 | 36.1 |
-| VST-7B | 59.3 | 79.5 | 64.9 | 58.0 | 41.9 |
-| VST-32B | 63.5 | 80.7 | 67.2 | 60.7 | 45.1 |
+| **Model** | **HuggingFace** | **OVO-Bench** | **StreamingBench** | **VideoMME** | **LongVideoBench** | **VideoHolmes** |
+|---|---|---|---|---|---|---|
+| VST-3B | [🤗 Link](https://huggingface.co/Catalan258/VST-3B) | 56.2 | 75.5 | 59.5 | 54.1 | 36.1 |
+| VST-7B | [🤗 Link](https://huggingface.co/Catalan258/VST-7B) | 59.3 | 79.5 | 64.9 | 58.0 | 41.9 |
+| VST-32B | [🤗 Link](https://huggingface.co/Catalan258/VST-32B) | 63.5 | 80.7 | 67.2 | 60.7 | 45.1 |
+
+## 📦 Training Data
+
+We release the full training data used for both SFT and RL stages on HuggingFace:
+
+| **Dataset** | **Description** |
+|---|---|
+| [VST-Training-Data/vst_sft_data](https://huggingface.co/datasets/Catalan258/VST-Training-Data/tree/main/vst_sft_data) | SFT data including video-text pairs from multiple sources |
+| [VST-Training-Data/vst_rl_data](https://huggingface.co/datasets/Catalan258/VST-Training-Data/tree/main/vst_rl_data) | RL data for reinforcement learning stage |
 
 ## 📅 TODO
 - [x] Release the paper.
 - [x] Release checkpoint and eval code.
 - [x] Release training code.
 - [x] Release training data.
-
 
 ## 👍 Acknowledgement
 We thank the following great works and open-source repositories:
