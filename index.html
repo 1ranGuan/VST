@@ -812,9 +812,10 @@
         <nav>
             <a href="#" class="logo">Hust & Mi | VST</a>
             <ul>
+                <li><a href="#demo">Demo</a></li>
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#method">Method</a></li>
-                <li><a href="#experiments">Experiments</a></li>
+                <li><a href="#experiments">Models</a></li>
                 <li><a href="#citation">Citation</a></li>
             </ul>
         </nav>
@@ -860,25 +861,25 @@
             </div>
 
             <div class="badges">
-                <a href="https://arxiv.org/abs/2603.12262" class="badge">
+                <a href="https://arxiv.org/abs/2603.12262" class="badge" target="_blank" rel="noopener">
                     <i class="fa-solid fa-file-lines"></i>
                     <span>Paper</span>
                 </a>
-                <a href="https://github.com/1ranGuan/VST" class="badge" target="_blank">
+                <a href="https://github.com/1ranGuan/VST" class="badge" target="_blank" rel="noopener">
                     <i class="fa-brands fa-github"></i>
                     <span>Code</span>
                 </a>
-                <a href="#" class="badge" target="_blank">
+                <a href="https://huggingface.co/datasets/Catalan258/VST-Training-Data" class="badge" target="_blank" rel="noopener">
                     <i class="fa-solid fa-database"></i>
-                    <span>Dataset (TBD)</span>
+                    <span>Dataset</span>
                 </a>
-                <a href="https://huggingface.co/Catalan258/VST-7B" class="badge" target="_blank">
+                <a href="https://huggingface.co/Catalan258/VST-7B" class="badge" target="_blank" rel="noopener">
                     <img
                         src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
                         alt="Hugging Face"
                         class="badge-icon-img"
                     >
-                    <span>Model (TBD)</span>
+                    <span>Models</span>
                 </a>
             </div>
 
@@ -889,6 +890,18 @@
             <img src="assets/fig1.png" alt="VST Overview" class="hero-image">
         </div>
     </div>
+
+    <!-- Demo Video Section -->
+    <section id="demo">
+        <h2>Demo</h2>
+        <p style="color: var(--text-light); margin-bottom: 1.5rem;">Watch VST reason in real time as the video plays — streaming thoughts are generated continuously, enabling instant responses to user queries.</p>
+        <div style="text-align: center;">
+            <video controls style="max-width: 90%; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 184, 212, 0.15);">
+                <source src="https://github.com/user-attachments/assets/49846db5-bf76-4cf8-b923-4b9b88117482" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
 
     <!-- Overview Section -->
     <section id="overview">
@@ -951,7 +964,7 @@
     <!-- Case Study Section -->
     <section>
         <h2>Case Study</h2>
-        <p>The following case study demonstrates how VST's streaming thinking paradigm handles complex video understanding tasks:</p>
+        <p style="color: var(--text-light); line-height: 1.8;">The figure below illustrates how VST processes a video stream in real time. As new clips arrive, the model generates <strong>intermediate streaming thoughts</strong> that progressively build a semantic understanding of the scene. When a user query is posed, VST leverages the accumulated reasoning history to produce a grounded, low-latency response — without replaying or re-analyzing the video.</p>
         <div class="case-image">
             <img src="assets/case.png" alt="VST Case Study">
         </div>
@@ -960,13 +973,14 @@
     <!-- Experiments Section -->
     <section id="experiments">
         <h2>Model Zoo</h2>
-        <p>Performance across multiple benchmarks and model sizes:</p>
+        <p>All model weights are publicly available on HuggingFace. Best scores in each column are <strong>bolded</strong>.</p>
 
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
                         <th>Model</th>
+                        <th>HuggingFace</th>
                         <th>OVO-Bench</th>
                         <th>StreamingBench</th>
                         <th>VideoMME</th>
@@ -977,6 +991,7 @@
                 <tbody>
                     <tr>
                         <td>VST-3B</td>
+                        <td><a href="https://huggingface.co/Catalan258/VST-3B" target="_blank" rel="noopener" style="color: var(--primary-color); text-decoration: none;">&#129303; Download</a></td>
                         <td>56.2</td>
                         <td>75.5</td>
                         <td>59.5</td>
@@ -985,6 +1000,7 @@
                     </tr>
                     <tr>
                         <td>VST-7B</td>
+                        <td><a href="https://huggingface.co/Catalan258/VST-7B" target="_blank" rel="noopener" style="color: var(--primary-color); text-decoration: none;">&#129303; Download</a></td>
                         <td>59.3</td>
                         <td>79.5</td>
                         <td>64.9</td>
@@ -993,36 +1009,83 @@
                     </tr>
                     <tr>
                         <td>VST-32B</td>
-                        <td>63.5</td>
-                        <td>80.7</td>
-                        <td>67.2</td>
-                        <td>60.7</td>
-                        <td>45.1</td>
+                        <td><a href="https://huggingface.co/Catalan258/VST-32B" target="_blank" rel="noopener" style="color: var(--primary-color); text-decoration: none;">&#129303; Download</a></td>
+                        <td><strong>63.5</strong></td>
+                        <td><strong>80.7</strong></td>
+                        <td><strong>67.2</strong></td>
+                        <td><strong>60.7</strong></td>
+                        <td><strong>45.1</strong></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </section>
 
+    <!-- Resources Section -->
+    <section id="resources">
+        <h2>Resources</h2>
+        <div class="highlights">
+            <a href="https://huggingface.co/Catalan258/VST-3B" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+                <div class="highlight-item">
+                    <h4>&#129303; VST-3B</h4>
+                    <p>Lightweight model (~8 GB). Ideal for efficient deployment and resource-constrained settings.</p>
+                </div>
+            </a>
+            <a href="https://huggingface.co/Catalan258/VST-7B" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+                <div class="highlight-item">
+                    <h4>&#129303; VST-7B</h4>
+                    <p>Balanced model (~16 GB). Strong performance across all benchmarks with moderate compute requirements.</p>
+                </div>
+            </a>
+            <a href="https://huggingface.co/Catalan258/VST-32B" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+                <div class="highlight-item">
+                    <h4>&#129303; VST-32B</h4>
+                    <p>Largest and best-performing model (~67 GB). State-of-the-art results across all benchmarks.</p>
+                </div>
+            </a>
+            <a href="https://huggingface.co/datasets/Catalan258/VST-Training-Data" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+                <div class="highlight-item">
+                    <h4><i class="fa-solid fa-database" style="margin-right: 0.3rem;"></i> Training Data</h4>
+                    <p>Full SFT and RL training data, including annotation pipelines and data preparation scripts.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
     <!-- Citation Section -->
     <section id="citation">
         <h2>Citation</h2>
-        <p>If you use Video Streaming Thinking in your research, please cite our paper:</p>
-        <div class="citation-box">
-            <pre>@article{guan2026videostreamingthinking,
-      title={Video Streaming Thinking: VideoLLMs Can Watch and Think Simultaneously}, 
+        <p>If you find Video Streaming Thinking useful in your research, please consider citing our paper:</p>
+        <div class="citation-box" style="position: relative;">
+            <button onclick="copyCitation()" id="copy-btn" style="position: absolute; top: 0.8rem; right: 0.8rem; background: var(--primary-color); color: white; border: none; border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.8rem; cursor: pointer; transition: background 0.2s ease;">Copy</button>
+            <pre id="citation-text">@article{guan2026videostreamingthinking,
+      title={Video Streaming Thinking: VideoLLMs Can Watch and Think Simultaneously},
       author={Yiran Guan and Liang Yin and Dingkang Liang and Jianzhong Ju and Zhenbo Luo and Jian Luan and Yuliang Liu and Xiang Bai},
       journal={arXiv preprint arXiv:2603.12262},
       year={2026},
-}
-</pre>
+}</pre>
         </div>
     </section>
+
+    <script>
+    function copyCitation() {
+        var text = document.getElementById('citation-text').textContent;
+        navigator.clipboard.writeText(text).then(function() {
+            var btn = document.getElementById('copy-btn');
+            btn.textContent = 'Copied!';
+            btn.style.background = '#4caf50';
+            setTimeout(function() {
+                btn.textContent = 'Copy';
+                btn.style.background = '';
+            }, 2000);
+        });
+    }
+    </script>
 
     <!-- Footer -->
     <footer>
         <p>&copy; 2026 Video Streaming Thinking Project</p>
-        <p>Last updated: March 2026</p>
+        <p>Last updated: May 2026</p>
     </footer>
 </body>
 </html>
