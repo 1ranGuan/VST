@@ -100,7 +100,17 @@ h1{
 .aff-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .aff-dot-1{background:var(--accent)}
 .aff-dot-2{background:var(--violet)}
-.aff-note{font-size:0.75rem;color:var(--text-tertiary);font-style:italic;margin-bottom:2rem}
+.aff-note{font-size:0.75rem;color:var(--text-tertiary);font-style:italic;margin-bottom:1.5rem}
+
+/* Venue badge */
+.venue-badge{
+    display:inline-flex;align-items:center;gap:0.4rem;
+    padding:0.4rem 1.1rem;border-radius:980px;
+    font-size:0.82rem;font-weight:700;letter-spacing:-0.01em;
+    color:var(--violet);background:rgba(110,92,230,0.08);
+    border:1px solid rgba(110,92,230,0.18);
+    margin-bottom:2rem;
+}
 
 /* Buttons */
 .badges{display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;margin-bottom:3.5rem}
@@ -326,6 +336,8 @@ footer a:hover{text-decoration:underline}
         </div>
         <div class="aff-note">* Equal Contribution&ensp;&ensp;&#9993; Corresponding Author</div>
 
+        <div class="venue-badge">&#127881; Accepted to ECCV 2026</div>
+
         <div class="badges">
             <a href="https://arxiv.org/abs/2603.12262" class="btn btn-primary" target="_blank" rel="noopener">
                 <i class="fa-solid fa-file-lines"></i> Paper
@@ -495,10 +507,10 @@ footer a:hover{text-decoration:underline}
         <button class="copy-btn" onclick="copyCite()" id="copy-btn">
             <i class="fa-regular fa-copy"></i> Copy
         </button>
-        <pre id="cite-text">@article{guan2026videostreamingthinking,
+        <pre id="cite-text">@inproceedings{guan2026videostreamingthinking,
     title={Video Streaming Thinking: VideoLLMs Can Watch and Think Simultaneously},
     author={Yiran Guan and Liang Yin and Dingkang Liang and Jianzhong Ju and Zhenbo Luo and Jian Luan and Yuliang Liu and Xiang Bai},
-    journal={arXiv preprint arXiv:2603.12262},
+    booktitle={European Conference on Computer Vision (ECCV)},
     year={2026},
 }</pre>
     </div>
