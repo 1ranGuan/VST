@@ -1,0 +1,7 @@
+google-cloud-aiplatform   # vertexai SDK (Gemini, KG + QA generation)
+moviepy<2.0               # code uses moviepy.editor; needs ffmpeg on PATH
+opencv-python
+networkx
+matplotlib
+requests
+tqdm
