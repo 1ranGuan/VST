@@ -105,3 +105,6 @@ datasets/
 logs/
 *.log
 runs/
+
+# Claude Code
+CLAUDE.md
